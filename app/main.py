@@ -2,16 +2,20 @@ from app.knight_class import Knight
 from app.knights_list import KNIGHTS
 
 
-def battle(knightsconfig: dict) -> dict:
-    lancelot = Knight(**knightsconfig["lancelot"])
-    arthur = Knight(**knightsconfig["arthur"])
-    mordred = Knight(**knightsconfig["mordred"])
-    red_knight = Knight(**knightsconfig["red_knight"])
+def battle(knights_config: dict) -> dict:
+    knights = {
+        name: Knight(**stats)
+        for name, stats in knights_config.items()
+    }
 
-    result_1 = lancelot.battle(mordred)
-    result_2 = arthur.battle(red_knight)
+    knights["lancelot"].battle(knights["mordred"])
+    knights["arthur"].battle(knights["red_knight"])
 
-    return {**result_1, **result_2}
+    return {
+        knight.name: knight.hp
+        for knight in knights.values()
+    }
 
 
-print(battle(KNIGHTS))
+if __name__ == "__main__":
+    print(battle(KNIGHTS))
